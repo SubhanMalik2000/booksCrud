@@ -1,15 +1,18 @@
 import { useState } from "react";
-function BookEdit({ book, onEdit, index, changeMode, editboolean }) {
+import useBookContext from "../Hooks/useBooksContext";
+
+function BookEdit({ book, handleSubmit }) {
+  const { EditBookById } = useBookContext();
   const [saveEdit, setSaveEdit] = useState(book.title);
+
   const handleChange = (e) => {
     setSaveEdit(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("new Title is", { index, saveEdit });
-    onEdit(index, saveEdit);
-    changeMode(!editboolean);
+    handleSubmit(false);
+    EditBookById(book.id, saveEdit);
   };
 
   //update Method

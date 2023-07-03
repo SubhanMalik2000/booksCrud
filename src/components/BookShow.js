@@ -1,12 +1,14 @@
 import { useState } from "react";
 import BookEdit from "./BookEdit";
+import useBookContext from "../Hooks/useBooksContext";
 
-function BookShow({ book, index, onDelete, onEdit }) {
+function BookShow({ book }) {
+  const { deleteBook, EditBookById } = useBookContext();
   const [showEdit, setShowEdit] = useState(true);
 
   //Deleting bookid
   const handleDelte = () => {
-    onDelete(book.id);
+    deleteBook(book.id);
   };
 
   //Editing mode
@@ -14,12 +16,12 @@ function BookShow({ book, index, onDelete, onEdit }) {
     setShowEdit(!showEdit);
   };
   // Updating Title
-  const UpdatingShow = (editedBook) => {
+  const handleSubmit = () => {
     setShowEdit(!showEdit);
   };
 
   return (
-    <div className="book-show" key={index}>
+    <div className="book-show">
       <div className="actions">
         <button className="edit" onClick={handleEdit}>
           Edit
@@ -32,18 +34,12 @@ function BookShow({ book, index, onDelete, onEdit }) {
         <div>
           <img
             alt="books"
-            src={`https://picsum.photos/seed/${index}/300/200`}
+            src={`https://picsum.photos/seed/${book.id}/300/200`}
           />
-          {(book.id = index)}:{book.title}
+          {book.id}:{book.title}
         </div>
       ) : (
-        <BookEdit
-          index={index}
-          onEdit={onEdit}
-          book={book}
-          changeMode={UpdatingShow}
-          editboolean={setShowEdit}
-        />
+        <BookEdit book={book} handleSubmit={handleSubmit} />
       )}
     </div>
   );
